@@ -30,9 +30,11 @@ public class BloggingPlatformController {
     }
 
     @PostMapping
-    public void createBlogPost(@RequestBody BlogPost blogPost) {
+    public String createBlogPost(@RequestBody BlogPost blogPost) {
         // TODO: After they send info in the form of the BlogPost POJO, add to the data base
         // TODO: Return the Same POJO with the time it was created and updated
+        bloggingPlatformService.addBlogPost(blogPost);
+        return blogPost.toString();
     }
 
 }

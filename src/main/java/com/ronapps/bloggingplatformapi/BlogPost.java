@@ -43,6 +43,12 @@ public class BlogPost {
     public String getCategory() {
         return this.category;
     }
+/*
+    public List<String> getAllTags() {
+        return
+    }
+
+ */
 
 
 
