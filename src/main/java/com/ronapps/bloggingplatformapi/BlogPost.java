@@ -2,7 +2,6 @@ package com.ronapps.bloggingplatformapi;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,12 +12,22 @@ public class BlogPost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    private String title;
+
     private String content;
 
     private String category;
 
     @ElementCollection
     private List<String> tags;
+    
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String newTitle) {
+        this.title = newTitle;
+    }
 
     public void setId(Long newID) {
         this.Id = newID;
@@ -43,13 +52,4 @@ public class BlogPost {
     public String getCategory() {
         return this.category;
     }
-/*
-    public List<String> getAllTags() {
-        return
-    }
-
- */
-
-
-
 }

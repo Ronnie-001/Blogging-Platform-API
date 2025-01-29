@@ -3,11 +3,9 @@ package com.ronapps.bloggingplatformapi.Controller;
 import com.ronapps.bloggingplatformapi.BlogPost;
 import com.ronapps.bloggingplatformapi.Service.BloggingPlatformService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @RestController
@@ -30,11 +28,23 @@ public class BloggingPlatformController {
     }
 
     @PostMapping
-    public String createBlogPost(@RequestBody BlogPost blogPost) {
-        // TODO: After they send info in the form of the BlogPost POJO, add to the data base
-        // TODO: Return the Same POJO with the time it was created and updated
+    public BlogPost createBlogPost(@RequestBody BlogPost blogPost) {
         bloggingPlatformService.addBlogPost(blogPost);
-        return blogPost.toString();
+        return blogPost;
     }
 
+    @DeleteMapping("/delete/{id}")
+    public String deleteBlogPost(@PathVariable long id) {
+        bloggingPlatformService.removeBlogPostbyId(id);
+        return "Blog post has been deleted!";
+    }
+
+    @PutMapping("update/{id}")
+    public BlogPost updateBlogPost(@PathVariable long id, @RequestBody BlogPost blogPost) {
+        Optional<BlogPost> blogPostToBeUpdated = bloggingPlatformService.getBlogPost(id);
+        if (blogPostToBeUpdated.isPresent()) {
+            return blogPost;
+        }
+        return null;
+    }
 }
