@@ -5,9 +5,6 @@ import com.ronapps.bloggingplatformapi.Service.BloggingPlatformService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
-
 @RestController
 @RequestMapping("/posts")
 public class BloggingPlatformController {
@@ -35,16 +32,15 @@ public class BloggingPlatformController {
 
     @DeleteMapping("/delete/{id}")
     public String deleteBlogPost(@PathVariable long id) {
-        bloggingPlatformService.removeBlogPostbyId(id);
+        bloggingPlatformService.removeBlogPostById(id);
         return "Blog post has been deleted!";
     }
 
     @PutMapping("update/{id}")
-    public BlogPost updateBlogPost(@PathVariable long id, @RequestBody BlogPost blogPost) {
-        Optional<BlogPost> blogPostToBeUpdated = bloggingPlatformService.getBlogPost(id);
-        if (blogPostToBeUpdated.isPresent()) {
-            return blogPost;
-        }
-        return null;
+    public BlogPost updateBlogPost(@PathVariable long id, @RequestBody BlogPost updatedBlogPost) {
+        // TODO: Find out how to update an entity within a database
+        updatedBlogPost.setId(id);
+        bloggingPlatformService.addBlogPost(updatedBlogPost);
+        return updatedBlogPost;
     }
 }
