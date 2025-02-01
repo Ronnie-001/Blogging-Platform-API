@@ -10,7 +10,7 @@ public class BlogPost {
 
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     private String title;
 
@@ -20,6 +20,13 @@ public class BlogPost {
 
     @ElementCollection
     private List<String> tags;
+
+    @Version
+    private Integer version;
+
+    public BlogPost() {
+        this.version = 0;
+    }
     
     public String getTitle() {
         return this.title;
@@ -30,11 +37,11 @@ public class BlogPost {
     }
 
     public void setId(Long newID) {
-        this.Id = newID;
+        this.id = newID;
     }
 
     public Long getId() {
-        return  this.Id;
+        return  this.id;
     }
 
     public void setContent(String newContent) {
@@ -51,5 +58,13 @@ public class BlogPost {
 
     public String getCategory() {
         return this.category;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }

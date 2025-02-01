@@ -4,6 +4,7 @@ import com.ronapps.bloggingplatformapi.BlogPost;
 import com.ronapps.bloggingplatformapi.Service.BloggingPlatformService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
@@ -11,12 +12,9 @@ public class BloggingPlatformController {
 
     private final BloggingPlatformService bloggingPlatformService;
 
-    private final BlogPost blogPost;
-
     @Autowired
-    public BloggingPlatformController(BloggingPlatformService bloggingPlatformService, BlogPost blogPost) {
+    public BloggingPlatformController(BloggingPlatformService bloggingPlatformService) {
         this.bloggingPlatformService = bloggingPlatformService;
-        this.blogPost = blogPost;
     }
 
     @GetMapping
@@ -26,8 +24,7 @@ public class BloggingPlatformController {
 
     @PostMapping
     public BlogPost createBlogPost(@RequestBody BlogPost blogPost) {
-        bloggingPlatformService.addBlogPost(blogPost);
-        return blogPost;
+        return bloggingPlatformService.addBlogPost(blogPost);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -38,9 +35,18 @@ public class BloggingPlatformController {
 
     @PutMapping("update/{id}")
     public BlogPost updateBlogPost(@PathVariable long id, @RequestBody BlogPost updatedBlogPost) {
-        // TODO: Find out how to update an entity within a database
-        updatedBlogPost.setId(id);
-        bloggingPlatformService.addBlogPost(updatedBlogPost);
-        return updatedBlogPost;
+        BlogPost existingBlogPost = bloggingPlatformService.getBlogPost(id);
+        existingBlogPost.setTitle(updatedBlogPost.getTitle());
+        existingBlogPost.setCategory(updatedBlogPost.getCategory());
+        existingBlogPost.setContent(updatedBlogPost.getContent());
+        existingBlogPost.setTags(updatedBlogPost.getTags());
+
+        bloggingPlatformService.addBlogPost(existingBlogPost);
+        return existingBlogPost;
+    }
+
+    @GetMapping("/all")
+    public List<BlogPost> getAllBlogPosts() {
+        return bloggingPlatformService.getAllBlogPosts();
     }
 }

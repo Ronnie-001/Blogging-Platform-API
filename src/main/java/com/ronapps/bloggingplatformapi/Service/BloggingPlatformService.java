@@ -2,9 +2,9 @@ package com.ronapps.bloggingplatformapi.Service;
 
 import com.ronapps.bloggingplatformapi.BlogPost;
 import com.ronapps.bloggingplatformapi.Repository.BloggingPlatformRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class BloggingPlatformService {
@@ -20,16 +20,17 @@ public class BloggingPlatformService {
         return bloggingPlatformRepository.findById(id).get();
     }
 
-    public void addBlogPost(BlogPost newBlogPost) {
+    // also used for updating blog posts in the database
+    public BlogPost addBlogPost(BlogPost newBlogPost) {
         bloggingPlatformRepository.save(newBlogPost);
-    }
-
-    @Transactional
-    public void updateBlogPost(long id, BlogPost blogPost) {
-
+        return newBlogPost;
     }
 
     public void removeBlogPostById(Long id) {
         bloggingPlatformRepository.deleteById(id);
+    }
+
+    public List<BlogPost> getAllBlogPosts() {
+        return bloggingPlatformRepository.findAll();
     }
 }
